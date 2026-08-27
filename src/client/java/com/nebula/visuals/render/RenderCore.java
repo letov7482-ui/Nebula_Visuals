@@ -1,70 +1,99 @@
 package com.nebula.visuals.render;
 
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.GuiGraphics;
 
 public final class RenderCore {
 
     private RenderCore() {
     }
 
-    public static void roundedRect(
-            DrawContext context,
-            float x,
-            float y,
-            float width,
-            float height,
-            float radius,
+    public static void rect(
+            GuiGraphics graphics,
+            int x,
+            int y,
+            int width,
+            int height,
             int color
     ) {
-        if (width <= 0.0f || height <= 0.0f) {
+        if (width <= 0 || height <= 0) {
+            return;
+        }
+
+        graphics.fill(
+                x,
+                y,
+                x + width,
+                y + height,
+                color
+        );
+    }
+
+    public static void roundedRect(
+            GuiGraphics graphics,
+            int x,
+            int y,
+            int width,
+            int height,
+            int radius,
+            int color
+    ) {
+        if (width <= 0 || height <= 0) {
             return;
         }
 
         radius = Math.max(
-                0.0f,
-                Math.min(radius, Math.min(width, height) / 2.0f)
+                0,
+                Math.min(radius, Math.min(width, height) / 2)
         );
 
-        int left = (int) x;
-        int top = (int) y;
-        int right = (int) (x + width);
-        int bottom = (int) (y + height);
-        int r = (int) radius;
-
-        context.fill(
-                left + r,
-                top,
-                right - r,
-                bottom,
+        // Центральная область
+        graphics.fill(
+                x + radius,
+                y,
+                x + width - radius,
+                y + height,
                 color
         );
 
-        context.fill(
-                left,
-                top + r,
-                left + r,
-                bottom - r,
+        // Левая область
+        graphics.fill(
+                x,
+                y + radius,
+                x + radius,
+                y + height - radius,
                 color
         );
 
-        context.fill(
-                right - r,
-                top + r,
-                right,
-                bottom - r,
+        // Правая область
+        graphics.fill(
+                x + width - radius,
+                y + radius,
+                x + width,
+                y + height - radius,
                 color
         );
     }
 
-    public static int withAlpha(int color, float alpha) {
-        alpha = Math.max(0.0f, Math.min(1.0f, alpha));
+    public static int withAlpha(
+            int color,
+            float alpha
+    ) {
+        alpha = Math.max(
+                0.0f,
+                Math.min(1.0f, alpha)
+        );
 
         int a = (int) (alpha * 255.0f);
 
-        return (color & 0x00FFFFFF) | (a << 24);
+        return (color & 0x00FFFFFF)
+                | (a << 24);
     }
 
-    public static int rgb(int red, int green, int blue) {
+    public static int rgb(
+            int red,
+            int green,
+            int blue
+    ) {
         return 0xFF000000
                 | ((red & 0xFF) << 16)
                 | ((green & 0xFF) << 8)
