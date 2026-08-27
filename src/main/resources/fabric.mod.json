@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "nebula",
+  "version": "${version}",
+  "name": "Nebula Visuals",
+  "description": "Modern visual client for Minecraft 1.21.4.",
+  "authors": [
+    "Nebula Team"
+  ],
+  "environment": "client",
+
+  "entrypoints": {
+    "client": [
+      "com.nebula.visuals.NebulaClient"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.4",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
