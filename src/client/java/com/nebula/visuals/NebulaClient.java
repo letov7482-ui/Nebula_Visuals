@@ -1,6 +1,7 @@
 package com.nebula.visuals;
 
 import com.nebula.visuals.gui.NebulaScreen;
+import com.nebula.visuals.module.ModuleManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -23,8 +24,12 @@ public class NebulaClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
-        LOGGER.info("Nebula Visuals initialized.");
+        LOGGER.info("Nebula Visuals initializing...");
 
+        // Инициализация системы модулей
+        ModuleManager.init();
+
+        // Регистрация клавиши открытия ClickGUI
         openGuiKey = KeyBindingHelper.registerKeyBinding(
                 new KeyMapping(
                         "key.nebula.open_gui",
@@ -33,6 +38,7 @@ public class NebulaClient implements ClientModInitializer {
                 )
         );
 
+        // Обработка клавиши
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
             while (openGuiKey.consumeClick()) {
@@ -42,5 +48,7 @@ public class NebulaClient implements ClientModInitializer {
                 }
             }
         });
+
+        LOGGER.info("Nebula Visuals initialized successfully.");
     }
 }
