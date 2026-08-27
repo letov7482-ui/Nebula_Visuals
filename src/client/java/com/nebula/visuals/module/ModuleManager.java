@@ -1,5 +1,7 @@
 package com.nebula.visuals.module;
 
+import com.nebula.visuals.module.impl.HitEffects;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +11,12 @@ public final class ModuleManager {
     private static final List<Module> MODULES = new ArrayList<>();
 
     private ModuleManager() {
+    }
+
+    public static void init() {
+        MODULES.clear();
+
+        register(new HitEffects());
     }
 
     public static void register(Module module) {
